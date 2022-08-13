@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+#include "lib/colors.h"
 #include "defines.h"
 #include "helpers.h"
 #include "blackjack.h"
@@ -30,6 +31,16 @@ int main(int argc, char** argv) {
     // Print player information after initial dealing
     print_player(&dealer);
     print_player(&player1);
+
+
+    // Ask player for deal
+    int dealing = 1;
+    while (dealing) {
+        user_deal_option(&player1);
+        break;
+    }
+
+    // Dealer card unhides and picks cards
 
     return 0;
 }

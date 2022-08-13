@@ -237,3 +237,11 @@ void print_player(player_t* player) {
     show_hand(player->hand, player->cards);
     putchar('\n');
 }
+
+void user_deal_option(player_t* player) {
+    printf(TC_B_WHT "What do you want to do?" TC_NRM " [" TC_B_RED "H" TC_NRM "it/" TC_B_RED "S" TC_NRM "tand/" TC_B_RED "D" TC_NRM "ouble down]: ");
+
+    char* input[256];
+    scanf("%255s", input);
+}
+
