@@ -1,2 +1,2 @@
-# blackjack
-Blackjack made in C
+# Blackjack
+**Blackjack made in C.**
