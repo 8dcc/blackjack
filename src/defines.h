@@ -5,6 +5,7 @@
 
 #define DECK_SIZE 52
 #define MAX_HAND_CARDS 10
+#define DEALER_THRESHOLD 17         // Won't hit from this card
 #define DEALER_MONEY 20000
 #define PLAYER_MONEY 5000
 
@@ -40,6 +41,8 @@ typedef struct Card {
 typedef struct Player {
     int id;
     int money;
+    int bet;
+    int hitting;
     int cards;          // Number of cards
     int card_value;     // Total value of cards
     card_t* hand;
