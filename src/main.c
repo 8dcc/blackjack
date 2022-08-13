@@ -1,19 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+#include "defines.h"
+#include "helpers.h"
 #include "blackjack.h"
 
 int main(int argc, char** argv) {
     card_t deck[DECK_SIZE];         // Create the main deck
-    clear_deck(&deck[0]);           // Initialize it
+    card_t* deck_p = &deck[0];      // Pointer for commodity
 
-    // Show the state of the deck
-    for (int n = 0; n < DECK_SIZE; n++) {
-        printf("%s(%s)|", n2str(deck[n].number), s2str(deck[n].suit));
+    clear_deck(deck_p);             // Initialize it
+    pretty_print_deck_rows(deck_p, 4);
 
-        // Newline each suit
-        if ((n + 1) % (DECK_SIZE / 4) == 0) putchar('\n');
-    }
+    printf("\n");
 
-    // @todo: Shuffle
+    shuffle(deck_p);
+    pretty_print_deck_rows(deck_p, 4);
 
     return 0;
 }
