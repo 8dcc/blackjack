@@ -14,34 +14,42 @@ void print_deck(card_t* deck) {
     }
 }
 
+void print_card_top(int w) {
+    putchar(218);
+    for (int n = 0; n < w; n++)
+        putchar(196);
+    putchar(191);
+}
+
+void print_card_bottom(int w) {
+    putchar(192);
+    for (int n = 0; n < w; n++)
+        putchar(196);
+    putchar(217);
+}
+
 // Prints deck in card mode in 1 line format
 void pretty_print_deck(card_t* deck) {
-    for (int col = 0; col < DECK_SIZE; col++) {
-        putchar(218);
-        putchar(196);
-        putchar(196);
-        putchar(191);
+    for (int y = 0; y < DECK_SIZE; y++) {
+        print_card_top(2);
     }
     putchar('\n');
 
-    for (int col = 0; col < DECK_SIZE; col++) {
-        printf("%c%s %c", 179, s2str(deck[col].suit), 179);
+    for (int y = 0; y < DECK_SIZE; y++) {
+        printf("%c%s %c", 179, s2str(deck[y].suit), 179);
     }
     putchar('\n');
 
-    for (int col = 0; col < DECK_SIZE; col++) {
-        if (deck[col].number == 10)
-            printf("%c%s%c", 179, n2str(deck[col].number), 179);
+    for (int y = 0; y < DECK_SIZE; y++) {
+        if (deck[y].number == 10)
+            printf("%c%s%c", 179, n2str(deck[y].number), 179);
         else
-            printf("%c %s%c", 179, n2str(deck[col].number), 179);
+            printf("%c %s%c", 179, n2str(deck[y].number), 179);
     }
     putchar('\n');
 
-    for (int col = 0; col < DECK_SIZE; col++) {
-        putchar(192);
-        putchar(196);
-        putchar(196);
-        putchar(217);
+    for (int y = 0; y < DECK_SIZE; y++) {
+        print_card_bottom(2);
     }
     putchar('\n');
 }
@@ -68,10 +76,7 @@ void pretty_print_deck_rows(card_t* deck, int row_num) {
     // Print each row
     for (int y = 0; y < row_num; y++) {
         for (int x = 0; x < cards_per_row; x++) {
-            putchar(218);
-            putchar(196);
-            putchar(196);
-            putchar(191);
+            print_card_top(2);
         }
         putchar('\n');
 
@@ -89,13 +94,19 @@ void pretty_print_deck_rows(card_t* deck, int row_num) {
         putchar('\n');
 
         for (int x = 0; x < cards_per_row; x++) {
-            putchar(192);
-            putchar(196);
-            putchar(196);
-            putchar(217);
+            print_card_bottom(2);
         }
         putchar('\n');
     }
+}
+
+// Default player settings
+void init_player(player_t* player, int id, int money) {
+    player->id         = id;
+    player->money      = money;
+    player->cards      = 0;
+    player->card_value = 0;
+    player->hand       = malloc(sizeof(card_t) * MAX_HAND_CARDS);     // Allocate 10 cards for the hand
 }
 
 void clear_deck(card_t* deck) {
@@ -103,7 +114,7 @@ void clear_deck(card_t* deck) {
     int cur_suit   = DIAMONDS;
 
     for (int n = 0; n < DECK_SIZE; n++) {
-        card_t buff = { cur_number, cur_suit };
+        card_t buff = { cur_number, cur_suit, 0 };      // Start cards with hidden disabled
         deck[n] = buff;
 
         // We just put an ace, reset number and change suit
@@ -131,4 +142,98 @@ void shuffle(card_t* deck) {
         deck[rand_pos] = deck[n];           // Swap random card with current one
         deck[n] = original;                 // Set current one to stored random
     }
+}
+
+// Shows the hand
+void show_hand(card_t* hand, size_t cards) {
+    for (int y = 0; y < cards; y++) {
+        print_card_top(2);
+    }
+    putchar('\n');
+
+    for (int y = 0; y < cards; y++) {
+        if (hand[y].hidden)
+            printf("%c%c%c%c", 179, 177, 177, 179);     // Show gray chars if card is hidden
+        else 
+            printf("%c%s %c", 179, s2str(hand[y].suit), 179);
+    }
+    putchar('\n');
+
+    for (int y = 0; y < cards; y++) {
+        if (hand[y].hidden)
+            printf("%c%c%c%c", 179, 177, 177, 179);     // Show gray chars if card is hidden
+        else if (hand[y].number == 10)
+            printf("%c%s%c", 179, n2str(hand[y].number), 179);
+        else
+            printf("%c %s%c", 179, n2str(hand[y].number), 179);
+    }
+    putchar('\n');
+
+    for (int y = 0; y < cards; y++) {
+        print_card_bottom(2);
+    }
+    putchar('\n');
+}
+
+// Last item to first and shift array
+void back_to_front(card_t* deck) {
+    card_t back = deck[DECK_SIZE - 1];
+    for (int n = DECK_SIZE - 1; n > 0; n--) {
+        deck[n] = deck[n-1];
+    }
+    deck[0] = back;
+}
+
+// First item to last and shift array
+void front_to_back(card_t* deck) {
+    card_t front = deck[0];
+    for (int n = 0; n < DECK_SIZE; n++) {
+        deck[n] = deck[n+1];
+    }
+    deck[DECK_SIZE - 1] = front;
+}
+
+// Will deal the last card of the deck
+void deal_card(card_t* deck, player_t* player) {
+    card_t dealt_card = deck[0];
+
+    // Use player->cards for adding a new car (access idx of card number)
+    player->hand[player->cards] = dealt_card;
+    player->cards++;
+
+    if (dealt_card.number > 1 && dealt_card.number < 11) {
+        player->card_value += dealt_card.number;
+    } else if (dealt_card.number >= 11) {
+        player->card_value += 10;
+    } else if (dealt_card.number == 1) {
+        if (player->card_value + 11 > 21)
+            player->card_value += 1;
+        else
+            player->card_value += 11;
+    } else {
+        printf("Error! Incorrect card detected...");
+    }
+
+    // Shift deck array
+    front_to_back(deck);
+}
+
+// Prints debug player information
+void debug_player(player_t* player) {
+    printf("Player ID: %d | Money: %5d | Card number: %d | Hand:\n", player->id, player->money, player->cards);
+    show_hand(player->hand, player->cards);
+}
+
+// Prints player information for the game
+void print_player(player_t* player) {
+    if (player->id == 0)    printf("Dealer | ");
+    else                    printf("Player %d | ", player->id);
+    
+    printf("Money: %5d | ", player->money);
+
+    if (player->hand[0].hidden)     printf("Total card value: ?\n");
+    else                            printf("Total card value: %d\n", player->card_value);
+
+    show_hand(player->hand, player->cards);
+    putchar('\n');
 }
