@@ -342,6 +342,7 @@ void user_deal_option(card_t* deck, player_t* player) {
     putchar('\n');      // Newline after input/messages
 }
 
+// Keep drawing cards until threshold and print state
 void dealer_draw(card_t* deck, player_t* dealer) {
     while (dealer->card_value < DEALER_THRESHOLD)
         deal_card(deck, dealer);
@@ -349,6 +350,7 @@ void dealer_draw(card_t* deck, player_t* dealer) {
     print_player(dealer);
 }
 
+// Compare 2 players to check who wins. Keep in mind that if we bust we will lose even if the dealer busts!
 void compare_players(player_t* dealer, player_t* player) {
     // We busted or we have less than dealer and dealer didn't bust
     if (player->card_value > 21 || (dealer->card_value <= 21 && player->card_value < dealer->card_value)) {
