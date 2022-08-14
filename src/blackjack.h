@@ -14,6 +14,7 @@ void print_deck(card_t* deck) {
     }
 }
 
+// For the card borders
 void print_card_top(int w) {
     putchar(218);
     for (int n = 0; n < w; n++)
@@ -111,6 +112,7 @@ void init_player(player_t* player, int id, int money) {
     player->hand       = malloc(sizeof(card_t) * MAX_HAND_CARDS);     // Allocate 10 cards for the hand
 }
 
+// Initialize the deck with all the cards in order
 void clear_deck(card_t* deck) {
     int cur_number = ACE;
     int cur_suit   = DIAMONDS;
@@ -129,7 +131,7 @@ void clear_deck(card_t* deck) {
     }
 }
 
-// https://stackoverflow.com/questions/6127503/shuffle-array-in-c
+// Shuffle the deck with random positions
 void shuffle(card_t* deck) {
     srand(time(NULL));
 
@@ -179,7 +181,7 @@ void show_hand(card_t* hand, size_t cards) {
     putchar('\n');
 }
 
-// Last item to first and shift array
+// Move last item to first and shift array
 void back_to_front(card_t* deck) {
     card_t back = deck[DECK_SIZE - 1];
     for (int n = DECK_SIZE - 1; n > 0; n--) {
@@ -188,7 +190,7 @@ void back_to_front(card_t* deck) {
     deck[0] = back;
 }
 
-// First item to last and shift array
+// Move first item to last and shift array
 void front_to_back(card_t* deck) {
     card_t front = deck[0];
     for (int n = 0; n < DECK_SIZE; n++) {
@@ -248,6 +250,7 @@ void print_player(player_t* player) {
     putchar('\n');
 }
 
+// Will read the bet ammount for a player
 void read_bet_input(player_t* player) {
     int bet = 0;
 
@@ -310,8 +313,9 @@ void user_deal_option(card_t* deck, player_t* player) {
         }
     }
 
+    // After reading the user input, do what we have to do with the selected option
     switch (selected_option) {
-        case 0:
+        case 0:     // Hit
             deal_card(deck, player);
             print_player(player);
 
@@ -321,10 +325,10 @@ void user_deal_option(card_t* deck, player_t* player) {
                 player->hitting = 0;
 
             break;
-        case 1:
+        case 1:     // Stand
             player->hitting = 0;
             break;
-        case 2:
+        case 2:     // Double down
             // We made sure the player has money to double down when reading input
             player->hitting = 0;
             player->money -= player->bet;
@@ -334,7 +338,7 @@ void user_deal_option(card_t* deck, player_t* player) {
             print_player(player);
 
             break;
-        default:
+        default:    // Should never happen
             printf("Error. Wrong option...\n");
             break;
     }
@@ -373,3 +377,4 @@ void compare_players(player_t* dealer, player_t* player) {
 
     player->bet = 0;       // Reset bet counter
 }
+
