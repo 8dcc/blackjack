@@ -350,14 +350,19 @@ void dealer_draw(card_t* deck, player_t* dealer) {
 }
 
 void compare_players(player_t* dealer, player_t* player) {
-    if (player->card_value > 21 || player->card_value < dealer->card_value) {
+    // We busted or we have less than dealer and dealer didn't bust
+    if (player->card_value > 21 || (dealer->card_value <= 21 && player->card_value < dealer->card_value)) {
         printf("Player %d | Dealer wins. You lost: %d", player->id, player->bet);
+    // We have the same, push
     } else if (player->card_value == dealer->card_value) {
         printf("Player %d | Push. You recovered: %d", player->id, player->bet);
+    // We didn't bust and dealer busted or we have more than dealer
     } else if (dealer->card_value > 21 || player->card_value > dealer->card_value) {
+        // Give back bet + profit*1.5 if blackjack
         if (player->card_value == 21) {
             printf("Player %d | You won: %d", player->id, (int)(player->bet * 2.5));
             player->money += (int)(player->bet * 2.5);
+        // Give back bet + profit
         } else {
             printf("Player %d | You won: %d", player->id, (int)(player->bet * 2));
             player->money += (int)(player->bet * 2);
