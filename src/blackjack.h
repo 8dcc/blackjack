@@ -375,6 +375,7 @@ void compare_players(player_t* dealer, player_t* player) {
         }
     }
 
+    printf(" | Money: %d\n", player->money);
     player->bet = 0;       // Reset bet counter
 }
 
