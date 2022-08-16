@@ -47,3 +47,10 @@ typedef struct Player {
     int card_value;     // Total value of cards
     card_t* hand;
 } player_t;
+
+// =============================================================================
+// GLOBALS
+// =============================================================================
+
+card_t deck[DECK_SIZE];             // Create the main deck
+card_t* pDeck = &deck[0];           // Pointer for commodity

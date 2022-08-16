@@ -200,8 +200,8 @@ void front_to_back(card_t* deck) {
 }
 
 // Will deal the last card of the deck
-void deal_card(card_t* deck, player_t* player) {
-    card_t dealt_card = deck[0];
+void deal_card(player_t* player) {
+    card_t dealt_card = pDeck[0];
 
     // Use player->cards for adding a new car (access idx of card number)
     player->hand[player->cards] = dealt_card;
@@ -221,7 +221,7 @@ void deal_card(card_t* deck, player_t* player) {
     }
 
     // Shift deck array
-    front_to_back(deck);
+    front_to_back(pDeck);
 }
 
 // Prints debug player information
@@ -271,7 +271,7 @@ void read_bet_input(player_t* player) {
 }
 
 // Read the user input when dealing
-void user_deal_option(card_t* deck, player_t* player) {
+void user_deal_option(player_t* player) {
     if (player->card_value == 21) {
         player->hitting = 0;        // Don't ask for input if we have blackjack
         return;
@@ -316,7 +316,7 @@ void user_deal_option(card_t* deck, player_t* player) {
     // After reading the user input, do what we have to do with the selected option
     switch (selected_option) {
         case 0:     // Hit
-            deal_card(deck, player);
+            deal_card(player);
             print_player(player);
 
             if (player->card_value < 21)        // Less than 21, can still hit
@@ -334,7 +334,7 @@ void user_deal_option(card_t* deck, player_t* player) {
             player->money -= player->bet;
             player->bet   *= 2;
 
-            deal_card(deck, player);
+            deal_card(player);
             print_player(player);
 
             break;
@@ -347,9 +347,9 @@ void user_deal_option(card_t* deck, player_t* player) {
 }
 
 // Keep drawing cards until threshold and print state
-void dealer_draw(card_t* deck, player_t* dealer) {
+void dealer_draw(player_t* dealer) {
     while (dealer->card_value < DEALER_THRESHOLD)
-        deal_card(deck, dealer);
+        deal_card(dealer);
 
     print_player(dealer);
 }
