@@ -8,8 +8,8 @@
 #include "blackjack.h"
 
 int main(int argc, char** argv) {
-    clear_deck(pDeck);                 // Initialize it
-    shuffle(pDeck);                    // Shuffle the deck
+    clear_deck(pDeck);              // Initialize it
+    shuffle(pDeck);                 // Shuffle the deck
 
     player_t dealer;
     player_t* pDealer = &dealer;
@@ -36,12 +36,12 @@ int main(int argc, char** argv) {
     // Ask player for deal
     int bDealing = 1;
     while (bDealing) {
-        bDealing = 0;        // Reset to false, will be set to true if we need to deal
+        bDealing = 0;       // Reset to false, will be set to true if we need to deal
 
         separator();
 
-        if (player1.hitting) user_deal_option(pPlayer1);                // Check the first time so we only ask the ones that just draw a card
-        if (player1.hitting) bDealing = 1;                               // Check again because the value will change depending on the input
+        if (player1.hitting) user_deal_option(pPlayer1);           // Check the first time so we only ask the ones that just draw a card
+        if (player1.hitting) bDealing = 1;                         // Check again because the value will change depending on the input
     }
 
     // Dealer card unhides and picks cards
