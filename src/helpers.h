@@ -25,13 +25,23 @@ char* n2str(int number) {
 }
 
 char* s2str(int suit) {
+#ifdef SIMPLE_CHARS
     switch (suit) {
-        case DIAMONDS:      return TC_B_RED "\x4" TC_NRM;     break;
-        case CLUBS:         return TC_B_NRM "\x5" TC_NRM;     break;
-        case HEARTS:        return TC_B_RED "\x3" TC_NRM;     break;
-        case SPADES:        return TC_B_NRM "\x6" TC_NRM;     break;
+        case DIAMONDS:      return TC_B_RED "D" TC_NRM;     break;
+        case CLUBS:         return TC_B_NRM "C" TC_NRM;     break;
+        case HEARTS:        return TC_B_RED "H" TC_NRM;     break;
+        case SPADES:        return TC_B_NRM "S" TC_NRM;     break;
         default:            break;
     }
+#else
+    switch (suit) {
+        case DIAMONDS:      return TC_B_RED "♦" TC_NRM;     break;
+        case CLUBS:         return TC_B_NRM "♣" TC_NRM;     break;
+        case HEARTS:        return TC_B_RED "♥" TC_NRM;     break;
+        case SPADES:        return TC_B_NRM "♠" TC_NRM;     break;
+        default:            break;
+    }
+#endif
 
     return "";
 }

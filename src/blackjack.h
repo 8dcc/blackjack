@@ -16,17 +16,17 @@ void print_deck(card_t* deck) {
 
 // For the card borders
 void print_card_top(int w) {
-    putchar(218);
+    printf("%s", CARD_CHAR_TL);
     for (int n = 0; n < w; n++)
-        putchar(196);
-    putchar(191);
+        printf("%s", CARD_CHAR_X);
+    printf("%s", CARD_CHAR_TR);
 }
 
 void print_card_bottom(int w) {
-    putchar(192);
+    printf("%s", CARD_CHAR_BL);
     for (int n = 0; n < w; n++)
-        putchar(196);
-    putchar(217);
+        printf("%s", CARD_CHAR_X);
+    printf("%s", CARD_CHAR_BR);
 }
 
 // Prints deck in card mode in 1 line format
@@ -37,15 +37,15 @@ void pretty_print_deck(card_t* deck) {
     putchar('\n');
 
     for (int y = 0; y < DECK_SIZE; y++) {
-        printf("%c%s %c", 179, s2str(deck[y].suit), 179);
+        printf("%s%s %s", CARD_CHAR_Y, s2str(deck[y].suit), CARD_CHAR_Y);
     }
     putchar('\n');
 
     for (int y = 0; y < DECK_SIZE; y++) {
         if (deck[y].number == 10)
-            printf("%c%s%c", 179, n2str(deck[y].number), 179);
+            printf("%s%s%s", CARD_CHAR_Y, n2str(deck[y].number), CARD_CHAR_Y);
         else
-            printf("%c %s%c", 179, n2str(deck[y].number), 179);
+            printf("%s %s%s", CARD_CHAR_Y, n2str(deck[y].number), CARD_CHAR_Y);
     }
     putchar('\n');
 
@@ -82,15 +82,15 @@ void pretty_print_deck_rows(card_t* deck, int row_num) {
         putchar('\n');
 
         for (int x = 0; x < cards_per_row; x++) {
-            printf("%c%s %c", 179, s2str(rows[y][x].suit), 179);
+            printf("%s%s %s", CARD_CHAR_Y, s2str(rows[y][x].suit), CARD_CHAR_Y);
         }
         putchar('\n');
 
         for (int x = 0; x < cards_per_row; x++) {
             if (rows[y][x].number == 10)        // Remove space if 2 digits
-                printf("%c%s%c", 179, n2str(rows[y][x].number), 179);
+                printf("%s%s%s", CARD_CHAR_Y, n2str(rows[y][x].number), CARD_CHAR_Y);
             else
-                printf("%c %s%c", 179, n2str(rows[y][x].number), 179);
+                printf("%s %s%s", CARD_CHAR_Y, n2str(rows[y][x].number), CARD_CHAR_Y);
         }
         putchar('\n');
 
@@ -159,19 +159,19 @@ void show_hand(card_t* hand, size_t cards) {
 
     for (int y = 0; y < cards; y++) {
         if (hand[y].hidden)
-            printf("%c%c%c%c", 179, 177, 177, 179);     // Show gray chars if card is hidden
+            printf("%s%s%s%s", CARD_CHAR_Y, CARD_CHAR_HIDDEN, CARD_CHAR_HIDDEN, CARD_CHAR_Y);     // Show gray chars if card is hidden
         else 
-            printf("%c%s %c", 179, s2str(hand[y].suit), 179);
+            printf("%s%s %s", CARD_CHAR_Y, s2str(hand[y].suit), CARD_CHAR_Y);
     }
     putchar('\n');
 
     for (int y = 0; y < cards; y++) {
         if (hand[y].hidden)
-            printf("%c%c%c%c", 179, 177, 177, 179);     // Show gray chars if card is hidden
+            printf("%s%s%s%s", CARD_CHAR_Y, CARD_CHAR_HIDDEN, CARD_CHAR_HIDDEN, CARD_CHAR_Y);     // Show gray chars if card is hidden
         else if (hand[y].number == 10)
-            printf("%c%s%c", 179, n2str(hand[y].number), 179);
+            printf("%s%s%s", CARD_CHAR_Y, n2str(hand[y].number), CARD_CHAR_Y);
         else
-            printf("%c %s%c", 179, n2str(hand[y].number), 179);
+            printf("%s %s%s", CARD_CHAR_Y, n2str(hand[y].number), CARD_CHAR_Y);
     }
     putchar('\n');
 

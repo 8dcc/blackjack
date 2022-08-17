@@ -9,6 +9,27 @@
 #define DEALER_MONEY 20000
 #define PLAYER_MONEY 5000
 
+// Use simpler characters for cards
+//#define SIMPLE_CHARS
+
+#ifdef SIMPLE_CHARS
+#define CARD_CHAR_X "-"
+#define CARD_CHAR_Y "|"
+#define CARD_CHAR_TL "+"
+#define CARD_CHAR_TR "+"
+#define CARD_CHAR_BL "+"
+#define CARD_CHAR_BR "+"
+#define CARD_CHAR_HIDDEN "#"
+#else
+#define CARD_CHAR_X "─"
+#define CARD_CHAR_Y "│"
+#define CARD_CHAR_TL "┌"
+#define CARD_CHAR_TR "┐"
+#define CARD_CHAR_BL "└"
+#define CARD_CHAR_BR "┘"
+#define CARD_CHAR_HIDDEN "▒"
+#endif
+
 // Figures
 enum {
     ACE = 1,
