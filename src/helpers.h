@@ -33,7 +33,15 @@ char* s2str(int suit) {
         case SPADES:        return TC_B_NRM "S" TC_NRM;     break;
         default:            break;
     }
-#else
+#elif _WIN32                    // Put hex char for windows
+    switch (suit) {
+        case DIAMONDS:      return TC_B_RED "\x04" TC_NRM;     break;
+        case CLUBS:         return TC_B_NRM "\x05" TC_NRM;     break;
+        case HEARTS:        return TC_B_RED "\x03" TC_NRM;     break;
+        case SPADES:        return TC_B_NRM "\x06" TC_NRM;     break;
+        default:            break;
+    }
+#else                           // Hardcoded chars for __unix__
     switch (suit) {
         case DIAMONDS:      return TC_B_RED "♦" TC_NRM;     break;
         case CLUBS:         return TC_B_NRM "♣" TC_NRM;     break;

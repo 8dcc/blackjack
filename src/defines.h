@@ -20,7 +20,15 @@
 #define CARD_CHAR_BL "+"
 #define CARD_CHAR_BR "+"
 #define CARD_CHAR_HIDDEN "#"
-#else
+#elif _WIN32                    // Strings gave some problems on windows
+#define CARD_CHAR_X "\xC4"
+#define CARD_CHAR_Y "\xB3"
+#define CARD_CHAR_TL "\xDA"
+#define CARD_CHAR_TR "\xBF"
+#define CARD_CHAR_BL "\xC0"
+#define CARD_CHAR_BR "\xD9"
+#define CARD_CHAR_HIDDEN "\xB1"
+#else                           // __unix__
 #define CARD_CHAR_X "─"
 #define CARD_CHAR_Y "│"
 #define CARD_CHAR_TL "┌"
