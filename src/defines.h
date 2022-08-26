@@ -9,6 +9,11 @@
 #define DEALER_MONEY 20000
 #define PLAYER_MONEY 5000
 
+// Using ncurses on linux, comment this if you want to use the normal mode on linux
+#ifdef __unix__
+#define USE_NCURSES
+#endif
+
 // Use simpler characters for cards
 //#define SIMPLE_CHARS
 

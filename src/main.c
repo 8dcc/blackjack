@@ -5,9 +5,19 @@
 #include "lib/colors.h"
 #include "defines.h"
 #include "helpers.h"
+
+// See defines.h
+#ifdef USE_NCURSES
+#include "blackjack_ncurses.h"
+#else
 #include "blackjack.h"
+#endif
 
 int main(int argc, char** argv) {
+    #ifdef USE_NCURSES
+    initsrc();
+    #endif
+
     clear_deck(pDeck);              // Initialize it
     shuffle(pDeck);                 // Shuffle the deck
 
