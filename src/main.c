@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
 #include <sys/time.h>
+#else
+#include <time.h>
+#endif
 
 #include "lib/colors.h"
 #include "defines.h"
