@@ -14,6 +14,11 @@
 #define USE_NCURSES
 #endif
 
+// Define positions even if not using ncurses
+#define DEF_HAND_X 1
+#define DEF_HAND_Y 5        // Space that each hand takes
+#define DEF_HAND_Y_M 1      // Top margin
+
 // Use simpler characters for cards
 //#define SIMPLE_CHARS
 
@@ -74,6 +79,7 @@ typedef struct Card {
 // Player
 typedef struct Player {
     int id;
+    int hand_x, hand_y; // For ncurses
     int money;
     int bet;
     int hitting;

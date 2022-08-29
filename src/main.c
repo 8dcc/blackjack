@@ -15,7 +15,7 @@
 
 int main(int argc, char** argv) {
     #ifdef USE_NCURSES
-    initsrc();
+    initscr();
     #endif
 
     clear_deck(pDeck);              // Initialize it

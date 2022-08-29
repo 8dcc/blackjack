@@ -90,6 +90,8 @@ void pretty_print_deck_rows(card_t* deck, int row_num) {
 // Default player settings
 void init_player(player_t* player, int id, int money) {
     player->id         = id;
+    player->hand_x     = DEF_HAND_X;
+    player->hand_y     = DEF_HAND_Y * id + DEF_HAND_Y_M;        // Hand space * id + top margin
     player->money      = money;
     player->bet        = 0;
     player->hitting    = 1;     // Start as true because we want to ask users for input the first time
@@ -136,7 +138,11 @@ void shuffle(card_t* deck) {
 
 // TODO: Define X and Y positions and use them instead of parameters (so we can call it the same way from main)
 // Shows the hand
-void show_hand(card_t* hand, size_t cards) {
+void show_hand(player_t* player) {
+    // Only pass player and get data from here
+    card_t* hand = player->hand;
+    size_t cards = player->cards;
+
     if (cards < 1) return;      // Don't draw if we don't have cards...
 
     for (int y = 0; y < cards; y++) {
@@ -214,7 +220,7 @@ void deal_card(player_t* player) {
 // Prints debug player information
 void debug_player(player_t* player) {
     printf("Player ID: %d | Money: %5d | Card number: %d | Hand:\n", player->id, player->money, player->cards);
-    show_hand(player->hand, player->cards);
+    show_hand(player);
 }
 
 // Prints player information for the game
@@ -227,7 +233,7 @@ void print_player(player_t* player) {
     if (player->hand[0].hidden)     printf("Total card value: ?\n");
     else                            printf("Total card value: %d\n", player->card_value);
 
-    show_hand(player->hand, player->cards);
+    show_hand(player);
 
     if (!player->hand[0].hidden) {
         if (player->card_value == 21)       printf("Blackjack!\n");
