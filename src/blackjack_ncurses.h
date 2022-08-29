@@ -18,7 +18,7 @@ void print_deck(card_t* deck) {
 // Prints deck in card mode in 1 line format
 void pretty_print_deck(card_t* deck) {
     for (int y = 0; y < DECK_SIZE; y++) {
-        print_card_top(2);
+        printf("%s%s%s%s", CARD_CHAR_TL, CARD_CHAR_X, CARD_CHAR_X, CARD_CHAR_TR);
     }
     putchar('\n');
 
@@ -36,7 +36,7 @@ void pretty_print_deck(card_t* deck) {
     putchar('\n');
 
     for (int y = 0; y < DECK_SIZE; y++) {
-        print_card_bottom(2);
+        printf("%s%s%s%s", CARD_CHAR_BL, CARD_CHAR_X, CARD_CHAR_X, CARD_CHAR_BR);
     }
     putchar('\n');
 }
@@ -63,7 +63,7 @@ void pretty_print_deck_rows(card_t* deck, int row_num) {
     // Print each row
     for (int y = 0; y < row_num; y++) {
         for (int x = 0; x < cards_per_row; x++) {
-            print_card_top(2);
+            printf("%s%s%s%s", CARD_CHAR_TL, CARD_CHAR_X, CARD_CHAR_X, CARD_CHAR_TR);
         }
         putchar('\n');
 
@@ -81,7 +81,7 @@ void pretty_print_deck_rows(card_t* deck, int row_num) {
         putchar('\n');
 
         for (int x = 0; x < cards_per_row; x++) {
-            print_card_bottom(2);
+            printf("%s%s%s%s", CARD_CHAR_BL, CARD_CHAR_X, CARD_CHAR_X, CARD_CHAR_BR);
         }
         putchar('\n');
     }
@@ -136,7 +136,6 @@ void shuffle(card_t* deck) {
     }
 }
 
-// TODO: Define X and Y positions and use them instead of parameters (so we can call it the same way from main)
 // Shows the hand
 void show_hand(player_t* player) {
     // Only pass player and get data from here
@@ -145,31 +144,34 @@ void show_hand(player_t* player) {
 
     if (cards < 1) return;      // Don't draw if we don't have cards...
 
+    /* move(player->hand_y, player->hand_x);       // Move before printing anything */
+    refresh();
+
     for (int y = 0; y < cards; y++) {
-        print_card_top(2);      // TODO: Do here directly with defined chars
+        printw("%s%s%s%s", CARD_CHAR_TL, CARD_CHAR_X, CARD_CHAR_X, CARD_CHAR_TR);
     }
     putchar('\n');
 
     for (int y = 0; y < cards; y++) {
         if (hand[y].hidden)
-            printf("%s%s%s%s", CARD_CHAR_Y, CARD_CHAR_HIDDEN, CARD_CHAR_HIDDEN, CARD_CHAR_Y);     // Show gray chars if card is hidden
+            printw("%s%s%s%s", CARD_CHAR_Y, CARD_CHAR_HIDDEN, CARD_CHAR_HIDDEN, CARD_CHAR_Y);     // Show gray chars if card is hidden
         else 
-            printf("%s%s %s", CARD_CHAR_Y, s2str(hand[y].suit), CARD_CHAR_Y);
+            printw("%s%s %s", CARD_CHAR_Y, s2str(hand[y].suit), CARD_CHAR_Y);
     }
     putchar('\n');
 
     for (int y = 0; y < cards; y++) {
         if (hand[y].hidden)
-            printf("%s%s%s%s", CARD_CHAR_Y, CARD_CHAR_HIDDEN, CARD_CHAR_HIDDEN, CARD_CHAR_Y);     // Show gray chars if card is hidden
+            printw("%s%s%s%s", CARD_CHAR_Y, CARD_CHAR_HIDDEN, CARD_CHAR_HIDDEN, CARD_CHAR_Y);     // Show gray chars if card is hidden
         else if (hand[y].number == 10)
-            printf("%s%s%s", CARD_CHAR_Y, n2str(hand[y].number), CARD_CHAR_Y);
+            printw("%s%s%s", CARD_CHAR_Y, n2str(hand[y].number), CARD_CHAR_Y);
         else
-            printf("%s %s%s", CARD_CHAR_Y, n2str(hand[y].number), CARD_CHAR_Y);
+            printw("%s %s%s", CARD_CHAR_Y, n2str(hand[y].number), CARD_CHAR_Y);
     }
     putchar('\n');
 
     for (int y = 0; y < cards; y++) {
-        print_card_bottom(2);
+        printw("%s%s%s%s", CARD_CHAR_BL, CARD_CHAR_X, CARD_CHAR_X, CARD_CHAR_BR);
     }
     putchar('\n');
 }
@@ -228,16 +230,16 @@ void print_player(player_t* player) {
     if (player->id == 0)    printf("Dealer   | ");
     else                    printf("Player %d | ", player->id);
     
-    printf("Money: %5d | Bet: %5d | ", player->money, player->bet);
+    printw("Money: %5d | Bet: %5d | ", player->money, player->bet);
 
-    if (player->hand[0].hidden)     printf("Total card value: ?\n");
-    else                            printf("Total card value: %d\n", player->card_value);
+    if (player->hand[0].hidden)     printw("Total card value: ?\n");
+    else                            printw("Total card value: %d\n", player->card_value);
 
     show_hand(player);
 
     if (!player->hand[0].hidden) {
-        if (player->card_value == 21)       printf("Blackjack!\n");
-        else if (player->card_value > 21)   printf("Busted!\n");
+        if (player->card_value == 21)       printw("Blackjack!\n");
+        else if (player->card_value > 21)   printw("Busted!\n");
     }
     
     putchar('\n');
@@ -249,11 +251,11 @@ void read_bet_input(player_t* player) {
 
     int loop = 1;
     while (loop) {
-        printf("Player %d | Place your bet ($%d): ", player->id, player->money);
-        scanf("%7d", &bet);
+        printw("Player %d | Place your bet ($%d): ", player->id, player->money);
+        scanw("%7d", &bet);
 
-        if (bet < 1 || bet > 9999999)   printf("That is not a valid bet!\n");
-        else if (bet > player->money)   printf("You don't have enough money!\n");
+        if (bet < 1 || bet > 9999999)   printw("That is not a valid bet!\n");
+        else if (bet > player->money)   printw("You don't have enough money!\n");
         else                            loop = 0;
     }
 
@@ -261,6 +263,7 @@ void read_bet_input(player_t* player) {
     player->bet    = bet;
 
     putchar('\n');
+    refresh();
 }
 
 // Read the user input when dealing
@@ -274,8 +277,8 @@ void user_deal_option(player_t* player) {
 
     int loop = 1;
     while (loop) {
-        printf("Player %d | ", player->id);
-        printf(TC_B_WHT "What do you want to do?" TC_NRM " [" TC_B_RED "H" TC_NRM "it/" TC_B_RED "S" TC_NRM "tand/" TC_B_RED "D" TC_NRM "ouble down]: ");
+        printw("Player %d | ", player->id);
+        printw(TC_B_WHT "What do you want to do?" TC_NRM " [" TC_B_RED "H" TC_NRM "it/" TC_B_RED "S" TC_NRM "tand/" TC_B_RED "D" TC_NRM "ouble down]: ");
 
         char input[256];
         scanf("%255s", input);
@@ -297,11 +300,11 @@ void user_deal_option(player_t* player) {
                     selected_option = 2;
                     loop = 0;
                 } else {
-                    printf("You don't have enough money!\n");
+                    printw("You don't have enough money!\n");
                 }
                 break;
             default:
-                printf("Error reading option... Try again.\n");
+                printw("Error reading option... Try again.\n");
                 break;
         }
     }
@@ -332,7 +335,7 @@ void user_deal_option(player_t* player) {
 
             break;
         default:    // Should never happen
-            printf("Error. Wrong option...\n");
+            printw("Error. Wrong option...\n");
             break;
     }
 
@@ -351,24 +354,24 @@ void dealer_draw(player_t* dealer) {
 void compare_players(player_t* dealer, player_t* player) {
     // We busted or we have less than dealer and dealer didn't bust
     if (player->card_value > 21 || (dealer->card_value <= 21 && player->card_value < dealer->card_value)) {
-        printf("Player %d | Dealer wins. You lost: %d", player->id, player->bet);
+        printw("Player %d | Dealer wins. You lost: %d", player->id, player->bet);
     // We have the same, push
     } else if (player->card_value == dealer->card_value) {
-        printf("Player %d | Push. You recovered: %d", player->id, player->bet);
+        printw("Player %d | Push. You recovered: %d", player->id, player->bet);
     // We didn't bust and dealer busted or we have more than dealer
     } else if (dealer->card_value > 21 || player->card_value > dealer->card_value) {
         // Give back bet + profit*1.5 if blackjack
         if (player->card_value == 21) {
-            printf("Player %d | You won: %d", player->id, (int)(player->bet * 2.5));
+            printw("Player %d | You won: %d", player->id, (int)(player->bet * 2.5));
             player->money += (int)(player->bet * 2.5);
         // Give back bet + profit
         } else {
-            printf("Player %d | You won: %d", player->id, (int)(player->bet * 2));
+            printw("Player %d | You won: %d", player->id, (int)(player->bet * 2));
             player->money += (int)(player->bet * 2);
         }
     }
 
-    printf(" | Money: %d\n", player->money);
+    printw(" | Money: %d\n", player->money);
     player->bet = 0;       // Reset bet counter
 }
 
