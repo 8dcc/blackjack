@@ -16,6 +16,8 @@
 int main(int argc, char** argv) {
     #ifdef USE_NCURSES
     initscr();
+    move(0, 0);
+    refresh();
     #endif
 
     clear_deck(pDeck);              // Initialize it
@@ -62,6 +64,10 @@ int main(int argc, char** argv) {
 
     // Bet outcome
     compare_players(pDealer, pPlayer1);
+
+    #ifdef USE_NCURSES
+    endwin();
+    #endif
 
     return 0;
 }
