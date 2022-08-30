@@ -1,16 +1,16 @@
 
 CC=gcc
 CFLAGS=-Wall
-BIN=bin/blackjack.out
 
-all: blackjack
+all: 		blackjack
+blackjack:	blackjack.out
+ncurses:	blackjack_ncurses.out
 
-blackjack: src/*.c
-	$(CC) $(CFLAGS) -o $(BIN) src/main.c
+blackjack.out: src/*
+	$(CC) $(CFLAGS) -o $@ src/main.c
 
-ncurses: src/*.c
-	$(CC) $(CFLAGS) -o $(BIN) src/main.c -lncurses
+blackjack_ncurses.out: src/*
+	$(CC) $(CFLAGS) -o $@ src/main.c -lncurses
 
-clean: bin/*.out
-	# Add obj folder if needed
-	rm $<
+clean:
+	rm *.out
