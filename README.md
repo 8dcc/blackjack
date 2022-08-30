@@ -2,10 +2,15 @@
 **Simple CLI blackjack made in C.**
 
 ### Building from source
-Complile the [`main.c`](src/main.c) file.
+Using make:
 ```bash
-gcc src/main.c -o blackjack
-./blackjack
+# For the generic version
+make
+./blackjack.out
+
+# For the ncurses version (linux)
+make ncurses
+./blackjack_ncurses.out
 ```
 
 ### Screenshots
