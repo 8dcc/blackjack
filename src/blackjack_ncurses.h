@@ -262,7 +262,7 @@ void read_bet_input(player_t* player) {
     player->money -= bet;
     player->bet    = bet;
 
-    putchar('\n');
+    erase();
     refresh();
 }
 
