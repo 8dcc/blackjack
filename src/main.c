@@ -12,6 +12,7 @@
 
 // See defines.h
 #ifdef USE_NCURSES
+#include <locale.h>     // For ncurses and wide chars
 #include "blackjack_ncurses.h"
 #else
 #include "blackjack.h"
@@ -19,6 +20,7 @@
 
 int main(int argc, char** argv) {
     #ifdef USE_NCURSES
+    setlocale(LC_ALL, "");      // For wide chars
     initscr();
     move(0, 0);
     refresh();
