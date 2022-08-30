@@ -55,5 +55,7 @@ char* s2str(int suit) {
 }
 
 void separator() {
+#ifndef USE_NCURSES
     printf(TC_B_WHT "======================================================================================\n\n" TC_NRM);
+#endif
 }
