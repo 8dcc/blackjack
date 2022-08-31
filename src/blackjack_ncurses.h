@@ -215,7 +215,7 @@ void user_deal_option(player_t* player) {
         move(y, x);
         clrtoeol();     // Clear to remove possible wrong inputs
         printw("Player %d | ", player->id);
-        printw(TC_B_WHT "What do you want to do? [Hit/Stand/Double down]: ");
+        printw("What do you want to do? [Hit/Stand/Double down]: ");
 
         char input[256];
         scanw("%255s", input);
