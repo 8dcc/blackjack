@@ -11,9 +11,12 @@
 #define DEALER_MONEY     20000
 #define PLAYER_MONEY     5000
 
-// Using ncurses on linux, comment this if you want to use the normal mode on linux
-#ifdef __unix__
-#define USE_NCURSES
+// If we are trying to use ncurses in windows, stop
+#ifdef _WIN32
+#ifdef USE_NCURSES
+#define WRONG_NCURSES
+#undef USE_NCURSES
+#endif
 #endif
 
 // Define positions even if not using ncurses

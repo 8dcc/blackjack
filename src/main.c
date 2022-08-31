@@ -19,7 +19,9 @@
 #endif
 
 int main(int argc, char** argv) {
-    #ifdef USE_NCURSES
+    #ifdef WRONG_NCURSES
+    printf("Trying to use ncurses on windows is not supported. Using normal mode.\n");
+    #elif USE_NCURSES
     setlocale(LC_ALL, "");      // For wide chars
     initscr();
     move(0, 0);
