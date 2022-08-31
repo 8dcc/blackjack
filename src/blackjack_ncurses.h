@@ -135,7 +135,8 @@ void deal_card(player_t* player) {
         else
             player->card_value += 11;
     } else {
-        printf("Error! Incorrect card detected...");
+        mvprintw(0, 1, "Error! Incorrect card detected...");
+        refresh();
     }
 
     // Shift deck array
@@ -221,13 +222,20 @@ void user_deal_option(player_t* player) {
 
     int loop = 1;
     while (loop) {
+        // Clear to remove possible wrong inputs
         move(y, x);
-        clrtoeol();     // Clear to remove possible wrong inputs
+        clrtoeol();
+
         printw("Player %d | ", player->id);
         printw("What do you want to do? [Hit/Stand/Double down]: ");
 
         char input[256];
         scanw("%255s", input);
+
+        // Previous error messages
+        move(y+1, x);
+        clrtoeol();
+        refresh();
 
         switch (input[0]) {
             case 'H':
@@ -246,11 +254,11 @@ void user_deal_option(player_t* player) {
                     selected_option = 2;
                     loop = 0;
                 } else {
-                    mvprintw(x, y+1, "You don't have enough money!");
+                    mvprintw(y+1, x, "You don't have enough money!");
                 }
                 break;
             default:
-                mvprintw(x, y+1, "Error reading option...");
+                mvprintw(y+1, x, "Error reading option...");
                 break;
         }
     }
@@ -281,7 +289,7 @@ void user_deal_option(player_t* player) {
 
             break;
         default:    // Should never happen
-            mvprintw(x,y+1, "Error. Wrong option...\n");
+            mvprintw(y+1, x, "Error. Wrong option...\n");
             break;
     }
 
