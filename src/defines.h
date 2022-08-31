@@ -56,6 +56,8 @@
 // ENUMS
 // =============================================================================
 
+// TODO: Color enum for ncurses. See: https://www.linuxjournal.com/content/programming-color-ncurses
+
 // Figures
 enum {
     ACE = 1,
