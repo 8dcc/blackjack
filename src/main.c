@@ -50,7 +50,6 @@ int main(int argc, char** argv) {
     print_player(pDealer);
     print_player(pPlayer1);
 
-
     // Ask player for deal
     int bDealing = 1;
     while (bDealing) {
@@ -72,6 +71,9 @@ int main(int argc, char** argv) {
     compare_players(pDealer, pPlayer1);
 
     #ifdef USE_NCURSES
+    printw("Press any key to exit...");
+    refresh();
+    getchar();
     endwin();
     #endif
 
