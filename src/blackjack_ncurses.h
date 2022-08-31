@@ -183,19 +183,28 @@ void read_bet_input(player_t* player) {
 
     int loop = 1;
     while (loop) {
+        bet = 0;
         mvprintw(1, 1, "Player %d | Place your bet ($%d): ", player->id, player->money);
         scanw("%7d", &bet);
 
-        if (bet < 1 || bet > 9999999)   printw("That is not a valid bet!\n");
-        else if (bet > player->money)   printw("You don't have enough money!\n");
+        // Clear line for invalid inputs
+        move(1, 1);
+        clrtoeol();
+        // Clear error line before asking for input
+        move(2, 1);
+        clrtoeol();
+
+        if (bet < 1 || bet > 9999999)   mvprintw(2, 1, "That is not a valid bet!");
+        else if (bet > player->money)   mvprintw(2, 1, "You don't have enough money!");
         else                            loop = 0;
+        refresh();
     }
 
     player->money -= bet;
     player->bet    = bet;
 
     erase();        // Clear screen after getting bet to remove line
-    refresh();
+    REFRESH_0();
 }
 
 // Read the user input when dealing
