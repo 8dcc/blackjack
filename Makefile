@@ -11,7 +11,7 @@ blackjack.out: src/*
 
 # https://stackoverflow.com/a/35163301/11715554
 blackjack_ncurses.out: src/*
-	$(CC) $(CFLAGS) -o $@ src/main.c -lncursesw
+	$(CC) $(CFLAGS) -o $@ src/main.c -DUSE_NCURSES -lncursesw
 
 clean:
 	rm *.out
