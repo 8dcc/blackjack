@@ -6,6 +6,9 @@ all: 		blackjack
 blackjack:	blackjack.out
 ncurses:	blackjack_ncurses.out
 
+debug:
+	$(eval CFLAGS += -g)
+
 blackjack.out: src/*
 	$(CC) $(CFLAGS) -o $@ src/main.c
 
