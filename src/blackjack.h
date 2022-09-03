@@ -284,12 +284,9 @@ int read_bet_input(player_t* player) {
         bet = 0;
         printf("Player %d | Place your bet ($%d): ", player->id, player->money);
         
-        // Scan input to buffer and then convert it to integer. getchar() breaks if we scan int
-        char* buff = calloc(10, sizeof(char));
-        scanf("%7s", buff);
-        bet = atoi(buff);
-        clear_input(buff[0]);         // see helpers.h
-
+        // Scan input as max 7 digit integer, then 'flush' stdin. See helpers.h
+        scanf("%7d", &bet);
+        clear_input(1);
 
         if (bet < 1 || bet > 9999999)   printf("That is not a valid bet!\n");
         else if (bet > player->money)   printf("You don't have enough money!\n");

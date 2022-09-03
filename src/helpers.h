@@ -88,11 +88,13 @@ void separator() {
 }
 
 /*
- * Useful when using more than one 'Press enter to continue'. For more information see:
+ * Useful when using more than one 'Press enter to continue'. last_c is passed to check if the last char is already a newline.
+ * If we didn't scan a char, for example after a scanf, we can pass 1.
+ * For more information see:
  * https://github.com/r4v10l1/c-stuff/blob/553cba822d28f1d418f8af4c7518a2cd138b801c/Misc/getchar_test.c#L4-L10
  */
-void clear_input(const char current) {
-    char c = current;
+void clear_input(const char last_c) {
+    char c = last_c;
 
     // Clear newlines after input
     while (c != '\n' && c != EOF)
