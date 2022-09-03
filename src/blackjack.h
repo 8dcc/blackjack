@@ -283,7 +283,13 @@ int read_bet_input(player_t* player) {
     while (loop) {
         bet = 0;
         printf("Player %d | Place your bet ($%d): ", player->id, player->money);
-        scanf("%7d", &bet);
+        
+        // Scan input to buffer and then convert it to integer. getchar() breaks if we scan int
+        char* buff = calloc(10, sizeof(char));
+        scanf("%7s", buff);
+        bet = atoi(buff);
+        clear_input(buff[0]);         // see helpers.h
+
 
         if (bet < 1 || bet > 9999999)   printf("That is not a valid bet!\n");
         else if (bet > player->money)   printf("You don't have enough money!\n");
@@ -314,6 +320,7 @@ void user_deal_option(player_t* player) {
 
         char input[256];
         scanf("%255s", input);
+        clear_input(input[0]);         // see helpers.h
 
         switch (input[0]) {
             case 'H':
@@ -408,10 +415,12 @@ void compare_players(player_t* dealer, player_t* player) {
 }
 
 char ask_continue() {
-    char c;
-    printf("\nPress any key to continue or Q to quit...");
-    c = getchar();      // TODO: Does not work. Always '\n' without asking for input
-    printf("\n\n");
+    printf("\nPress any key to continue or Q to quit: ");
+    
+    char c = getchar();
+    clear_input(c);         // See helpers.h
+
+    printf("\n");
     return tolower(c);
 }
 

@@ -86,3 +86,15 @@ void separator() {
     printf(TC_B_WHT "======================================================================================\n\n" TC_NRM);
 #endif
 }
+
+/*
+ * Useful when using more than one 'Press enter to continue'. For more information see:
+ * https://github.com/r4v10l1/c-stuff/blob/553cba822d28f1d418f8af4c7518a2cd138b801c/Misc/getchar_test.c#L4-L10
+ */
+void clear_input(const char current) {
+    char c = current;
+
+    // Clear newlines after input
+    while (c != '\n' && c != EOF)
+        c = getchar();
+}
