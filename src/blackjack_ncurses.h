@@ -19,6 +19,18 @@ void init_player(player_t* player, int id, int money) {
     player->cards      = 0;
     player->card_value = 0;
     player->hand       = malloc(sizeof(card_t) * MAX_HAND_CARDS);     // Allocate 10 cards for the hand
+    memset(player->hand, 0, sizeof(card_t) * MAX_HAND_CARDS);
+}
+
+// Called each game loop
+void clear_player(player_t* player) {
+    player->bet        = 0;
+    player->hitting    = 1;
+    player->cards      = 0;
+    player->card_value = 0;
+
+    // Clear hand
+    memset(player->hand, 0, sizeof(card_t) * MAX_HAND_CARDS);
 }
 
 // Initialize the deck with all the cards in order
@@ -179,8 +191,23 @@ void print_player(player_t* player) {
 }
 
 // Will read the bet ammount for a player
-void read_bet_input(player_t* player) {
+int read_bet_input(player_t* player) {
     int bet = 0;
+
+    // Since we are using ncurses, clear screen first of all (just useful for when we are playing more than once)
+    erase();
+
+    // Just exit if we dont have money to bet.
+    // TODO: More player support
+    if (player->money < 1) {
+        mvprintw(1, 1, "You don't have any money to bet. Press any key to exit...");
+        refresh();
+        getchar();
+
+        endwin();
+        return 1;
+    }
+
 
     int loop = 1;
     while (loop) {
@@ -206,6 +233,8 @@ void read_bet_input(player_t* player) {
 
     erase();        // Clear screen after getting bet to remove line
     REFRESH_0();
+
+    return 0;       // All good
 }
 
 // Read the user input when dealing
@@ -344,3 +373,9 @@ void compare_players(player_t* dealer, player_t* player) {
     refresh();
 }
 
+
+char ask_continue() {
+    printw("Press any key to continue or Q to quit...");
+    refresh();
+    return tolower(getchar());
+}
