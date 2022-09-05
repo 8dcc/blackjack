@@ -24,3 +24,6 @@ Using ncurses (no color for now). Player values and cards get updated on the sam
 
 ![screenshot-2](https://user-images.githubusercontent.com/29655971/187574171-467c68a8-7411-451f-8ee6-3319fd24e63f.png)
 
+
+### TOOD
+- [ ] Add nix shell support
