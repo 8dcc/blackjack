@@ -2,6 +2,8 @@
 CC=gcc
 CFLAGS=-Wall
 
+.PHONY: clean all blackjack ncurses debug
+
 all: 		blackjack
 blackjack:	blackjack.out
 ncurses:	blackjack_ncurses.out
